@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Container, TextField, Button, Typography, Box, Alert } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Alert, Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useLogin } from '../hooks/data-hooks/useLogin';
 import { storeTokens } from '../Services/AuthService';
 import { useAuth } from '../Providers/AuthProvider';
@@ -19,7 +19,7 @@ export const LoginPage = () => {
         if (isLoggedIn) {
             navigate('/');
         }
-    }, [isLoggedIn])
+    }, [isLoggedIn]);
 
     useEffect(() => {
         if (message) {
@@ -46,14 +46,14 @@ export const LoginPage = () => {
                     setError('An error occurred. Please try again later.');
                 }
             }
-        })
-    }
+        });
+    };
 
     return (
         <Container maxWidth="sm">
             <Typography variant="h4" component="h1" gutterBottom>
                 Login Page
-            </Typography>            
+            </Typography>
             {message && <Alert severity="success">{message}</Alert>}
             {error && <Alert severity="error">{error}</Alert>}
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Container, Box, CssBaseline } from '@mui/material';
+import { AppBar, Box, Container, CssBaseline, Toolbar, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { isTokenValid, refreshTokenIfExpired, removeTokens } from '../Services/AuthService';
 import { useAuth } from '../Providers/AuthProvider';
@@ -19,9 +19,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         const refreshLogin = async () => {
             await refreshTokenIfExpired();
             setAuth(isTokenValid());
-        }
+        };
         refreshLogin();
-    }, [])
+    }, []);
 
     const handleLogout = () => {
         setAuth(false);
@@ -48,16 +48,19 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                         </Link>
                         {isLoggedIn ? (
                             <>
-                                <Link to="/user/profile" style={{ color: 'inherit', textDecoration: 'none', marginRight: '20px' }}>
+                                <Link to="/user/profile"
+                                      style={{ color: 'inherit', textDecoration: 'none', marginRight: '20px' }}>
                                     Profile
                                 </Link>
-                                <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }} onClick={handleLogout}>
+                                <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}
+                                      onClick={handleLogout}>
                                     Logout
                                 </Link>
                             </>
                         ) : (
                             <>
-                                <Link to="/login" style={{ color: 'inherit', textDecoration: 'none', marginRight: '20px' }}>
+                                <Link to="/login"
+                                      style={{ color: 'inherit', textDecoration: 'none', marginRight: '20px' }}>
                                     Login
                                 </Link>
                                 <Link to="/register" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -68,7 +71,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Container component="main"  sx={{ mt: 8, mb: 2}} maxWidth="xl">
+            <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="xl">
                 {children}
             </Container>
         </>

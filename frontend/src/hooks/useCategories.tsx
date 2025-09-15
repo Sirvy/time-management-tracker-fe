@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useFetchCategoryList } from "./data-hooks/useCategories";
-import { Category } from "../Interface/interface";
+import { useEffect, useState } from 'react';
+import { useFetchCategoryList } from './data-hooks/useCategories';
+import { Category } from '../Interface/interface';
 
 export const useCategories = () => {
-    const [ categories, setCategories ] = useState<Category[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const { data, error, isFetched } = useFetchCategoryList();
 
     useEffect(() => {
@@ -11,7 +11,7 @@ export const useCategories = () => {
         setCategories(data);
         setCategories((prev) => [...prev, {
             _id: '0',
-            color: '#7F7F7F', 
+            color: '#7F7F7F',
             name: 'Other'
         }]);
 
@@ -20,4 +20,4 @@ export const useCategories = () => {
     return {
         categories
     };
-}
+};

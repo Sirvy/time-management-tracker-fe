@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
 import { authenticate } from '../middlewares/Auth';
 import { fetchUserCategories } from '../controllers/Categories';
 
