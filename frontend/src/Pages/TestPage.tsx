@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 interface TestPageProps {
     message: string;
@@ -20,5 +20,5 @@ export const TestPage = () => {
             <h1>Test Page</h1>
             <p>{data?.message}</p>
         </div>
-    )
-}
+    );
+};

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Container, TextField, Button, Typography, Box, Alert } from '@mui/material';
+import { Alert, Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useRegister } from '../hooks/data-hooks/useRegister';
 import { useAuth } from '../Providers/AuthProvider';
 
@@ -23,7 +23,7 @@ export const RegisterPage = () => {
         if (isLoggedIn) {
             navigate('/');
         }
-    }, [isLoggedIn])
+    }, [isLoggedIn]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -31,7 +31,7 @@ export const RegisterPage = () => {
 
         handleRegister({ username, password, email }, {
             onSuccess: (data) => {
-                navigate('/login', { state: { message: 'Registration successful! Please log in.' } });        
+                navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
             },
             onError: (error) => {
                 const axiosError = error as AxiosError<ErrorData>;
@@ -43,7 +43,7 @@ export const RegisterPage = () => {
                 }
             }
         });
-    }
+    };
 
     return (
         <Container maxWidth="sm">

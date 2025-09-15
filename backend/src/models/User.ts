@@ -6,6 +6,7 @@ interface IUser extends Document {
     email: string;
     password: string;
     role: 'user' | 'admin';
+
     comparePassword(password: string): Promise<boolean>;
 }
 
@@ -35,7 +36,7 @@ const userSchema: Schema = new mongoose.Schema(
 );
 
 // Hash the password before saving it to the database
-userSchema.pre<IUser>('save', async function (next) {
+userSchema.pre<IUser>('save', async function(next) {
     const user = this;
     if (!user.isModified('password')) return next();
 
@@ -49,7 +50,7 @@ userSchema.pre<IUser>('save', async function (next) {
 });
 
 // Compare the given password with the hashed password in the database
-userSchema.methods.comparePassword = async function (password: string): Promise<boolean> {
+userSchema.methods.comparePassword = async function(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
 };
 

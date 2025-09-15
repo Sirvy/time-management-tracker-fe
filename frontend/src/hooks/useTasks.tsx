@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { Task } from "../Interface/interface";
-import { useFetchTaskList } from "./data-hooks/useTasks";
+import { useEffect, useState } from 'react';
+import { Task } from '../Interface/interface';
+import { useFetchTaskList } from './data-hooks/useTasks';
 
 export const useTasks = () => {
-    const [ tasks, setTasks ] = useState<Task[]>([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
     const { data, error, isFetched } = useFetchTaskList();
 
     useEffect(() => {
@@ -16,11 +16,11 @@ export const useTasks = () => {
                 date: new Date(task.date),
                 description: task.description,
                 timeSpent: task.timeSpent
-            }
+            };
         }));
     }, [data, isFetched]);
 
     return {
         tasks
     };
-}
+};

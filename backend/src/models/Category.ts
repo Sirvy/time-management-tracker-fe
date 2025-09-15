@@ -10,16 +10,16 @@ const categorySchema: Schema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true,
+            required: true
         },
         color: {
             type: String,
-            required: true,
+            required: true
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref: 'User', // Reference to User model
+            ref: 'User' // Reference to User model
         }
     },
     { timestamps: false }

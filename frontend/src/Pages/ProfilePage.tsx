@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, Box, Avatar, Paper, Grid } from '@mui/material';
+import { Avatar, Box, Container, Grid, Paper, Typography } from '@mui/material';
 import TaskForm from '../Components/TaskForm';
 import TaskList from '../Components/TaskList';
 import { Task } from '../Interface/interface';
@@ -18,7 +18,8 @@ export const ProfilePage = () => {
     const { setAuth } = useAuth();
     //const [tasks, setTasks] = useState<Task[]>([]);
 
-    useEffect(() => {}, [tasks]);
+    useEffect(() => {
+    }, [tasks]);
 
     useEffect(() => {
         const fetchProtectedData = async () => {
@@ -30,8 +31,8 @@ export const ProfilePage = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_HOST}/user/profile`, {
                     headers: {
-                        Authorization: `Bearer ${getToken()}`,
-                    },
+                        Authorization: `Bearer ${getToken()}`
+                    }
                 });
                 setUsername(response.data.message);
             } catch (error) {
@@ -72,7 +73,7 @@ export const ProfilePage = () => {
             </Paper>
             <Grid container spacing={2} sx={{ padding: 2 }}>
                 <Grid item xs={12} md={3} pr={2} sx={{ boxSizing: 'border-box' }}>
-                  <TaskForm onSubmit={handleTaskSubmit} />
+                    <TaskForm onSubmit={handleTaskSubmit} />
                 </Grid>
                 <Grid item xs={12} md={9} sx={{ borderLeft: 1, borderColor: 'divider' }}>
                     <TaskList tasks={tasks} />

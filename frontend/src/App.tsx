@@ -11,7 +11,7 @@ import MainLayout from './Layouts/MainLayout';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { AuthProvider } from './Providers/AuthProvider';
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 const App = () => {
     return (
@@ -32,7 +32,7 @@ const App = () => {
                 </QueryClientProvider>
             </AuthProvider>
         </Router>
-    )
-}
+    );
+};
 
 export default App;
