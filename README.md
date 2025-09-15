@@ -1,15 +1,32 @@
-# time-management-tracker
-Track your time for efficient time management. 
+# Time Management Tracker - Fronend
 
-# stack
+A simple React application TypeScript.
 
-Frontend - React
+## Getting Started
 
-Backend - Node.js
+### Prerequisites
 
+- Node.js (v18 or higher recommended)
+- npm
 
-# run
+### Installation
 
+Clone the repository and install dependencies:
+
+```bash
+git clone <repository-url>
+cd <project-directory>
+npm install
 ```
-docker-compose build
-docker-compose up
+
+### Running the Application
+
+```bash
+npm start
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
