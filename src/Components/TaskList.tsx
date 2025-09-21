@@ -209,6 +209,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
             <TaskModal task={modalTask} onClose={() => setModalTask(null)} onDelete={() => {
                 removeModalTask();
             }} onEdit={() => {
+                console.log('Edit task');
             }} />
             <Typography variant="h6" gutterBottom>
                 Task List

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Alert, Box, Button, Container, TextField, Typography } from '@mui/material';
-import { useRegister } from '../hooks/data-hooks/useRegister';
+import { useRegister } from '../api/data-hooks/useRegister';
 import { useAuth } from '../Providers/AuthProvider';
 
 interface ErrorData {

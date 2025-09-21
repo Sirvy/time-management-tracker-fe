@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { get } from '../api/utils/RestCaller';
 
 interface TestPageProps {
     message: string;
@@ -9,8 +10,7 @@ export const TestPage = () => {
     const [data, setData] = useState<TestPageProps | null>(null);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_BACKEND_HOST}/test`)
-            .then(response => response.json())
+        get('/test')
             .then(data => setData(data))
             .catch(error => console.error('error', error));
     }, []);

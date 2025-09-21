@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Alert, Box, Button, Container, TextField, Typography } from '@mui/material';
-import { useLogin } from '../hooks/data-hooks/useLogin';
-import { storeTokens } from '../Services/AuthService';
+import { useLogin } from '../api/data-hooks/useLogin';
+import { storeToken } from '../Services/AuthService';
 import { useAuth } from '../Providers/AuthProvider';
 
 export const LoginPage = () => {
@@ -36,7 +36,7 @@ export const LoginPage = () => {
         setError('');
         handleLogin({ username, password }, {
             onSuccess: (data) => {
-                storeTokens(data.accessToken, data.refreshToken);
+                storeToken(data.accessToken);
                 setAuth(true);
             },
             onError: (error) => {

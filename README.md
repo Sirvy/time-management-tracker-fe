@@ -22,11 +22,17 @@ npm install
 ### Running the Application
 
 ```bash
-npm start
+npm run dev
 ```
 
 ### Build for Production
 
 ```bash
 npm run build
+```
+
+### Mocks
+
+```
+npx msw init public/ --save
 ```

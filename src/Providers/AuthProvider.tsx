@@ -2,7 +2,9 @@
 import React, { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext({
-    isLoggedIn: false, setAuth: (auth: boolean) => {
+    isLoggedIn: false,
+    setAuth: (auth: boolean) => {
+        console.warn('setAuth function not implemented');
     }
 });
 

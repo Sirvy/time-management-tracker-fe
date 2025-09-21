@@ -5,7 +5,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import Timer from './Timer';
 import { Category, Task } from '../Interface/interface';
 import { useCategories } from '../hooks/useCategories';
-import { isTokenValid, refreshTokenIfExpired } from '../Services/AuthService';
+import { isTokenValid } from '../Services/AuthService';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Providers/AuthProvider';
 
@@ -25,7 +25,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
     const navigate = useNavigate();
     const { setAuth } = useAuth();
 
-// Parse timeSpent string into seconds
+    // Parse timeSpent string into seconds
     const parseTimeSpent = (timeString: string): number => {
         const hours = timeString.match(/(\d+)\s*h(ours?)?/);
         const minutes = timeString.match(/(\d+)\s*m(inutes?)?/);
@@ -51,7 +51,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        await refreshTokenIfExpired();
         if (!isTokenValid()) {
             setAuth(false);
             navigate('/');

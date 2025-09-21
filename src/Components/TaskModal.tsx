@@ -4,8 +4,8 @@ import { Close as CloseIcon, Delete as DeleteIcon, Edit as EditIcon } from '@mui
 import { formatTimeFromSeconds } from '../Utils/Utils';
 import { Category, Task } from '../Interface/interface';
 import { useCategories } from '../hooks/useCategories';
-import { useDeleteTask } from '../hooks/data-hooks/useTasks';
-import { isTokenValid, refreshTokenIfExpired } from '../Services/AuthService';
+import { useDeleteTask } from '../api/data-hooks/useTasks';
+import { isTokenValid } from '../Services/AuthService';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Providers/AuthProvider';
 
@@ -41,15 +41,13 @@ export const TaskModal = (props: TaskModalProps) => {
         width: 400,
         bgcolor: 'background.paper',
         boxShadow: 24,
-        borderRadius: '6px', // Add slight rounding
+        borderRadius: '6px',
         p: 4
     };
 
     const category = categories.find((value: Category) => value._id === props.task?.categoryId);
 
     const handleDelete = async () => {
-
-        await refreshTokenIfExpired();
         if (!isTokenValid()) {
             setAuth(false);
             navigate('/');

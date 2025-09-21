@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useFetchCategoryList } from './data-hooks/useCategories';
+import { useFetchCategoryList } from '../api/data-hooks/useCategories';
 import { Category } from '../Interface/interface';
 
 export const useCategories = () => {
@@ -7,7 +7,7 @@ export const useCategories = () => {
     const { data, error, isFetched } = useFetchCategoryList();
 
     useEffect(() => {
-        if (data === undefined || isFetched !== true) return;
+        if (data === undefined || !isFetched) return;
         setCategories(data);
         setCategories((prev) => [...prev, {
             _id: '0',

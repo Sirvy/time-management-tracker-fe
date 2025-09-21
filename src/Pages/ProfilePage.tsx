@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Avatar, Box, Container, Grid, Paper, Typography } from '@mui/material';
 import TaskForm from '../Components/TaskForm';
 import TaskList from '../Components/TaskList';
 import { Task } from '../Interface/interface';
 import { useTasks } from '../hooks/useTasks';
-import { useCreateTask } from '../hooks/data-hooks/useTasks';
-import { getToken, isTokenValid, refreshTokenIfExpired } from '../Services/AuthService';
+import { useCreateTask } from '../api/data-hooks/useTasks';
+import { isTokenValid } from '../Services/AuthService';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Providers/AuthProvider';
 
@@ -19,32 +18,32 @@ export const ProfilePage = () => {
     //const [tasks, setTasks] = useState<Task[]>([]);
 
     useEffect(() => {
+        console.log('Tasks updated:', tasks);
     }, [tasks]);
 
-    useEffect(() => {
-        const fetchProtectedData = async () => {
-            await refreshTokenIfExpired();
-            if (!isTokenValid()) {
-                setAuth(false);
-                navigate('/');
-            }
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_BACKEND_HOST}/user/profile`, {
-                    headers: {
-                        Authorization: `Bearer ${getToken()}`
-                    }
-                });
-                setUsername(response.data.message);
-            } catch (error) {
-                console.error('Error fetching protected data:', error);
-            }
-        };
-
-        fetchProtectedData();
-    }, []);
+    // useEffect(() => {
+    //     const fetchProtectedData = async () => {
+    //         await refreshTokenIfExpired();
+    //         if (!isTokenValid()) {
+    //             setAuth(false);
+    //             navigate('/');
+    //         }
+    //         try {
+    //             const response = await axios.get(`${API_BASE_URL}/user/profile`, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${getToken()}`
+    //                 }
+    //             });
+    //             setUsername(response.data.message);
+    //         } catch (error) {
+    //             console.error('Error fetching protected data:', error);
+    //         }
+    //     };
+    //
+    //     fetchProtectedData();
+    // }, []);
 
     const handleTaskSubmit = async (newTask: Task) => {
-        await refreshTokenIfExpired();
         if (!isTokenValid()) {
             setAuth(false);
             navigate('/');

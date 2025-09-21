@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage } from './Pages/HomePage';
 import { TestPage } from './Pages/TestPage';
 import { LoginPage } from './Pages/LoginPage';
@@ -15,7 +15,7 @@ const queryClient = new QueryClient();
 
 const App = () => {
     return (
-        <Router>
+        <BrowserRouter>
             <AuthProvider>
                 <QueryClientProvider client={queryClient}>
                     <MainLayout>
@@ -31,7 +31,7 @@ const App = () => {
                     </MainLayout>
                 </QueryClientProvider>
             </AuthProvider>
-        </Router>
+        </BrowserRouter>
     );
 };
 

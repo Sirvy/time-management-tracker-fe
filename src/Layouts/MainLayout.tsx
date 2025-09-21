@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
 import { AppBar, Box, Container, CssBaseline, Toolbar, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { isTokenValid, refreshTokenIfExpired, removeTokens } from '../Services/AuthService';
+import { isTokenValid, removeTokens } from '../Services/AuthService';
 import { useAuth } from '../Providers/AuthProvider';
 
 // Define the type for the props
@@ -17,7 +17,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
     useEffect(() => {
         const refreshLogin = async () => {
-            await refreshTokenIfExpired();
             setAuth(isTokenValid());
         };
         refreshLogin();
