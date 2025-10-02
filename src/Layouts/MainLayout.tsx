@@ -1,8 +1,9 @@
 import React, { ReactNode, useEffect } from 'react';
 import { AppBar, Box, Container, CssBaseline, Toolbar, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import { isTokenValid, removeTokens } from '../Services/AuthService';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../Providers/AuthProvider';
+import { usePingAuth } from '../api/data-hooks/usePingAuth';
+import { accessTokenIsNull } from '../Services/AuthService';
 
 // Define the type for the props
 interface MainLayoutProps {
@@ -11,21 +12,20 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
-    const { isLoggedIn, setAuth } = useAuth();
-
-    const navigate = useNavigate();
+    const { isLoggedIn, setAuth, logout } = useAuth();
+    const { mutate: handlePingAuth } = usePingAuth();
 
     useEffect(() => {
-        const refreshLogin = async () => {
-            setAuth(isTokenValid());
-        };
-        refreshLogin();
+        if (accessTokenIsNull()) return;
+        handlePingAuth(null, {
+            onSuccess: () => {
+                setAuth(true);
+            }
+        });
     }, []);
 
     const handleLogout = () => {
-        setAuth(false);
-        removeTokens();
-        navigate('/');
+        logout();
     };
 
     return (

@@ -3,12 +3,11 @@ import { API_BASE_URL } from '../../Config/config';
 import { Task } from '../../Interface/interface';
 import { del, get, post } from '../utils/RestCaller';
 
-
 export const useFetchTaskList = () => {
     return useQuery('tasks', async () => get('/tasks'));
 };
 
-export const useFetchTask = (taskId: string) => {
+export const useFetchTaskById = (taskId: string) => {
     return useQuery(['task', taskId], async () => get(`/tasks/${taskId}`));
 };
 

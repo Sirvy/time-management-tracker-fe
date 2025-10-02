@@ -1,11 +1,31 @@
 import { http, HttpResponse } from 'msw';
+import { mockStorage } from './mockStorage';
+
 
 interface User {
     username: string;
     password: string;
 }
 
-const users: User[] = [];
+let userIsLoggedIn = true;
+
+if (mockStorage.get('users') === null) {
+    mockStorage.set('users', []);
+}
+if (mockStorage.get('categories') === null) {
+    mockStorage.set('categories', [
+        { _id: '1', name: 'Work', color: '#FF5733' },
+        { _id: '2', name: 'Personal', color: '#33C1FF' },
+        { _id: '3', name: 'Fitness', color: '#75FF33' }
+    ]);
+}
+if (mockStorage.get('tasks') === null) {
+    mockStorage.set('tasks', []);
+}
+
+const users: User[] = mockStorage.get('users') || [];
+let categories = mockStorage.get('categories') || [];
+let tasks = mockStorage.get('tasks') || [];
 
 const createMockJwt = () => {
     const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
@@ -13,14 +33,6 @@ const createMockJwt = () => {
     const signature = 'mocked-signature';
     return `${header}.${payload}.${signature}`;
 };
-
-const mockCategories = [
-    { _id: '1', name: 'Work', color: '#FF5733' },
-    { _id: '2', name: 'Personal', color: '#33C1FF' },
-    { _id: '3', name: 'Fitness', color: '#75FF33' }
-];
-
-const mockTasks = [];
 
 const verifyAccessToken = (req: any) => {
     const authHeader = req.request.headers.get('Authorization');
@@ -37,25 +49,8 @@ const verifyAccessToken = (req: any) => {
     }
 };
 
-const getRefreshTokenFromCookie = (req: any) => {
-    const cookie = req.request.headers.get('Cookie');
-    if (!cookie) return null;
-    const match = cookie.match(/refreshToken=([^;]+)/);
-    return match ? match[1] : null;
-};
-
 const verifyRefreshToken = (req: any) => {
-    const token = getRefreshTokenFromCookie(req);
-    if (!token) return false;
-    const parts = token.split('.');
-    if (parts.length !== 3) return false;
-    try {
-        const payload = JSON.parse(atob(parts[1]));
-        if (!payload.exp || payload.exp < Math.floor(Date.now() / 1000)) return false;
-        return true;
-    } catch {
-        return false;
-    }
+    return userIsLoggedIn;
 };
 
 export const handlers = [
@@ -64,13 +59,26 @@ export const handlers = [
             'message': 'Hello'
         });
     }),
+    http.post('/auth/check', async <any>(req) => {
+        if (!verifyAccessToken(req)) {
+            return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+        }
+        return HttpResponse.json();
+    }),
     http.post('/register', async (req) => {
         const request = await req.request.json();
-        const { username, password } = request as { username: string; password: string };
+        const { username, password, captchaValue } = request as {
+            username: string;
+            password: string,
+            captchaValue: string
+        };
+        if (!captchaValue || captchaValue !== '4') {
+            return HttpResponse.json({ message: 'Captcha validation failed' }, { status: 400 });
+        }
         if (users.find(u => u.username === username)) {
             return HttpResponse.json({ message: 'User already exists' }, { status: 400 });
         }
-        users.push({ username, password });
+        mockStorage.update('users', (current) => [...(current || []), { username, password }]);
         console.log(users);
         return HttpResponse.json({ message: 'Registration successful' });
     }),
@@ -83,6 +91,9 @@ export const handlers = [
         }
         return HttpResponse.json({ accessToken: createMockJwt() });
     }),
+    http.post('/logout', async <any>(req) => {
+        // TODO invalidate refresh token
+    }),
     http.post('/auth/refresh-token', async <any>(req) => {
         if (!verifyRefreshToken(req)) {
             return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
@@ -94,13 +105,13 @@ export const handlers = [
         if (!verifyAccessToken(req)) {
             return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
-        return HttpResponse.json(mockCategories);
+        return HttpResponse.json(categories);
     }),
     http.get('/tasks', async <any>(req) => {
         if (!verifyAccessToken(req)) {
             return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
-        return HttpResponse.json(mockTasks);
+        return HttpResponse.json(tasks);
     }),
     http.post('/tasks', async <Task, any>(req) => {
         if (!verifyAccessToken(req)) {
@@ -114,7 +125,7 @@ export const handlers = [
             _id: Date.now().toString(),
             date: new Date(newTask.date)
         };
-        mockTasks.push(createdTask);
+        tasks.push(createdTask);
         return HttpResponse.json(createdTask, { status: 201 });
     })
 ];

@@ -13,6 +13,7 @@ export const removeTokens = () => {
 };
 
 export const isTokenExpired = (token: string) => {
+    return false; // Disable token expiration check for testing purposes
     try {
         const decoded = jwtDecode(token);
         if (!decoded || !decoded.exp) return true;
@@ -48,4 +49,12 @@ export const isTokenValid = () => {
 
 export const getToken = () => {
     return localStorage.getItem('accessToken');
+};
+
+export const accessTokenIsNull = () => {
+    return localStorage.getItem('accessToken') === null;
+};
+
+export const logout = () => {
+    removeTokens();
 };

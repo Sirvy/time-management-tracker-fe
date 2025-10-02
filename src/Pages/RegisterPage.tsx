@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Alert, Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useRegister } from '../api/data-hooks/useRegister';
 import { useAuth } from '../Providers/AuthProvider';
+import { SimpleCaptcha } from '../Components/SimpleCaptcha';
 
 interface ErrorData {
     message: string,
@@ -14,6 +15,7 @@ export const RegisterPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [captchaValue, setCaptchaValue] = useState('');
     const [error, setError] = useState('');
     const { mutate: handleRegister } = useRegister();
     const navigate = useNavigate();
@@ -29,7 +31,7 @@ export const RegisterPage = () => {
         event.preventDefault();
         setError('');
 
-        handleRegister({ username, password, email }, {
+        handleRegister({ username, password, email, captchaValue }, {
             onSuccess: (data) => {
                 navigate('/login', { state: { message: 'Registration successful! Please log in.' } });
             },
@@ -86,6 +88,9 @@ export const RegisterPage = () => {
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                />
+                <SimpleCaptcha
+                    onChange={setCaptchaValue}
                 />
                 <Button
                     type="submit"

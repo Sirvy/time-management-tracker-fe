@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage } from './Pages/HomePage';
 import { TestPage } from './Pages/TestPage';
@@ -9,11 +9,23 @@ import { PrivateRoute } from './Routers/PrivateRoute';
 import { RegisterPage } from './Pages/RegisterPage';
 import MainLayout from './Layouts/MainLayout';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { AuthProvider } from './Providers/AuthProvider';
+import { AuthProvider, useAuth } from './Providers/AuthProvider';
+import { NotFoundPage } from './Pages/NotFoundPage';
 
 const queryClient = new QueryClient();
 
 const App = () => {
+    const { logout } = useAuth();
+
+    useEffect(() => {
+        function handleLogout() {
+            logout();
+        }
+
+        window.addEventListener('logout', handleLogout);
+        return () => window.removeEventListener('logout', handleLogout);
+    }, [logout]);
+
     return (
         <BrowserRouter>
             <AuthProvider>
@@ -27,6 +39,7 @@ const App = () => {
                             <Route path="/user" element={<PrivateRoute />}>
                                 <Route path="/user/profile" element={<ProfilePage />} />
                             </Route>
+                            <Route path="*" element={<NotFoundPage />} />
                         </Routes>
                     </MainLayout>
                 </QueryClientProvider>

@@ -11,7 +11,10 @@ export const TestPage = () => {
 
     useEffect(() => {
         get('/test')
-            .then(data => setData(data))
+            .then(data => {
+                setData(data);
+                console.log('koko');
+            })
             .catch(error => console.error('error', error));
     }, []);
 
